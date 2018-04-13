@@ -1,0 +1,47 @@
+//Code
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) 
+    {
+        if(nums.size()==0||nums.size()==1)
+            return ;
+        next(nums,1);
+        return ;
+    }
+    
+    
+    void next(vector<int> & nums, int n)  // find next arage
+    {
+        int len=nums.size();
+        if(n==len)                         //to the head, 
+        {
+            rev(nums);
+            return ;
+        }
+        else if(nums[len-n-1]>=nums[len-n])         //
+        {
+            n++;
+            next(nums,n);
+        }
+        else
+        {    int i;
+          for(i=len-1;i>=len-n;i--)              //find the smallest in last n nums;
+          {
+              if(nums[i]>nums[len-n-1])
+                  break;
+          }
+            int x=nums[len-n-1];                   //swap
+            nums[len-n-1]=nums[i];
+            nums[i]=x;
+            sort(nums.begin()+len-n,nums.end());     rearrage
+            return ;
+         
+        }
+    }
+    
+    void rev(vector<int> & nums)                  //no,reverse
+    {
+        sort(nums.begin(),nums.end());
+        return ;
+    }
+};
