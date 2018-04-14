@@ -1,0 +1,63 @@
+Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+
+Example 1:
+
+Input: "(()"
+Output: 2
+Explanation: The longest valid parentheses substring is "()"
+Example 2:
+
+Input: ")()())"
+Output: 4
+Explanation: The longest valid parentheses substring is "()()"
+
+
+
+//solution 
+class Solution {
+public:
+    int longestValidParentheses(string s) 
+    {
+        int len=s.length();
+        if(len==0)           
+            return 0;
+        
+        int nums[len]={0};                    //取一个数组，用于记录是否配对，配对则表为一
+        for(int i=0;i<len;i++)
+            if(s[i]==')')                     //出现‘）’，则寻找配对
+                set_near(s,nums,i);          //标记配对的为1
+        return find_long(nums,len);       // 返回连续为1的最长的个数
+    }
+    
+    void set_near(string s,int *nums,int i)    
+    {
+        int j=i;
+     while(nums[--j]==1&&j>=0){};
+        if(j<0)
+            return ;
+        if(s[j]=='('&&nums[j]==0)         //找到还未配对的‘（’，配对，标记
+        {
+            nums[j]=1;
+            nums[i]=1;
+        }
+        return ;
+    }
+    
+    int find_long(int *nums,int len)               //找出最长的
+    {
+        int max=0;
+        int j=0;
+        for(int i=0;i<len;i++)
+        {
+            if(nums[i]==1)
+            {
+                j++;
+                max=j>max? j:max;
+            }
+            else
+                j=0;
+        }
+        return max;
+    }
+    
+};
