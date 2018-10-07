@@ -1,0 +1,60 @@
+//Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1 ... n.
+//给出中序遍历为1...n的所有二叉树
+
+//solution
+
+
+     vector<TreeNode*> inorder(int start,int end,vector<int> num)
+    {
+        vector<TreeNode*> res;
+        vector<TreeNode*> ltree,rtree;
+        if(start>end)
+        {
+            res.push_back(NULL);
+            return res;
+        }
+        else if(start==end)
+        {
+            TreeNode *p=new TreeNode(0);
+            p->val=num[start];
+            res.push_back(p);
+            return res;
+        }
+        else
+        {
+            for(int i=start;i<=end;i++)
+            {
+                ltree=inorder(start,i-1,num);
+                rtree=inorder(i+1,end,num);
+                for(TreeNode*  l:ltree )
+                {
+                    for(TreeNode* r:rtree)
+                    {
+                        TreeNode *p=new TreeNode(0);
+                        p->val=num[i];
+                        p->left=l;
+                        p->right=r;
+                        res.push_back(p);
+                    }
+
+                }
+            }
+        }
+        return res;
+    }
+    
+    
+    vector<TreeNode*> generateTrees(int n) 
+    {
+        vector<int> num;
+        vector<TreeNode*> res;
+        if(n==0)
+            return res;
+        for(int i=1;i<=n;i++)
+            num.push_back(i);
+        res=inorder(0,n-1,num);
+        return res;
+    }
+  
+        
+    
