@@ -1,0 +1,49 @@
+// Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+
+//solution
+
+ vector<vector<int>> levelOrder(TreeNode* root) 
+    {
+        vector<vector<int>> res;
+        vector<vector<int>> left;
+        vector<vector<int>> right;
+        vector<int> temp;
+
+        if(root==NULL)
+        return res;
+
+        temp.push_back(root->val);
+        res.push_back(temp);
+        left=levelOrder(root->left);
+        right=levelOrder(root->right);
+        left=AddTree(left,right);
+        res.insert(res.end(),left.begin(),left.end());
+        return res;
+    }
+
+    vector<vector<int>> AddTree(vector<vector<int>> p,vector<vector<int>> q)
+    {
+        if(p.size()>=q.size())
+        {
+            for(int i=0;i<p.size();i++)
+            {
+                if(i==q.size())
+                break;
+                p[i].insert(p[i].end(),q[i].begin(),q[i].end());
+            }
+            return p;
+        }
+        else
+        {
+            for(int i=0;i<q.size();i++)
+            {
+                if(i==p.size())
+                break;
+                p[i].insert(p[i].end(),q[i].begin(),q[i].end());
+                q[i]=p[i];
+            }
+            return q;
+        }
+        return p;
+
+    }
