@@ -1,0 +1,30 @@
+//Given a binary tree, determine if it is a valid binary search tree (BST).
+
+//solution
+
+  bool isValidBST(TreeNode* root) 
+    {
+        if(root==NULL)
+        return true;
+        vector<int> res=inorder(root);
+        for(int i=0;i<res.size()-1;i++)
+            if(res[i]>=res[i+1])
+            return false;
+        return true; 
+    }
+
+    vector<int> inorder(TreeNode* root)
+    {
+        vector<int> res;
+        vector<int> left;
+        vector<int> right;
+        if(root==NULL)
+        return res;
+        left=inorder(root->left);
+        right=inorder(root->right);
+        left.push_back(root->val);
+        left.insert(left.end(),right.begin(),right.end());
+        res=left;
+        return res;
+
+    }
